@@ -3,6 +3,8 @@
 
 #include <wx/bitmap.h>
 #include <string>
+#include <iostream>
+#include <memory>
 
 class GraphNode; // forward declaration
 class ChatLogic; // forward declaration
@@ -27,11 +29,38 @@ public:
     ChatBot(std::string filename); // constructor WITH memory allocation
     ~ChatBot();
 
-    //// STUDENT CODE
-    ////
+    ChatBot(ChatBot &&source); //move constructors
+    ChatBot(const ChatBot &source); //copy constructors
 
-    ////
-    //// EOF STUDENT CODE
+    ChatBot &operator=(ChatBot &&source) noexcept //move assignment operator
+    {
+        std::cout << "ChatBot Move Assignment Operator" << std::endl;
+        if (this == &source)
+            return *this;
+
+        _image = source._image;
+        _chatLogic = source._chatLogic;
+        _rootNode = source._rootNode;
+        _currentNode = source._currentNode;
+        source._image = nullptr;
+        source._chatLogic = nullptr;
+        source._rootNode = nullptr;
+        source._currentNode = nullptr;
+
+        return *this;
+    }
+
+    ChatBot &operator=(const ChatBot &source) // copy assignment operator
+    {
+        std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+        if (this == &source)
+            return *this;
+        _image = source._image;    
+        _chatLogic = source._chatLogic;
+        _rootNode = source._rootNode;
+        _currentNode = source._currentNode;
+        return *this;
+    }
 
     // getters / setters
     void SetCurrentNode(GraphNode *node);
