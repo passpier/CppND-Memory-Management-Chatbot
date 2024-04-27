@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include "chatlogic.h"
 
 class GraphNode; // forward declaration
 class ChatLogic; // forward declaration
@@ -30,38 +31,10 @@ public:
     ~ChatBot();
 
     ChatBot(ChatBot &&source); //move constructors
+    ChatBot &operator=(ChatBot &&source) noexcept; //move assignment operator
     ChatBot(const ChatBot &source); //copy constructors
-
-    ChatBot &operator=(ChatBot &&source) noexcept //move assignment operator
-    {
-        std::cout << "ChatBot Move Assignment Operator" << std::endl;
-        if (this == &source)
-            return *this;
-
-        _image = source._image;
-        _chatLogic = source._chatLogic;
-        _rootNode = source._rootNode;
-        _currentNode = source._currentNode;
-        source._image = nullptr;
-        source._chatLogic = nullptr;
-        source._rootNode = nullptr;
-        source._currentNode = nullptr;
-
-        return *this;
-    }
-
-    ChatBot &operator=(const ChatBot &source) // copy assignment operator
-    {
-        std::cout << "ChatBot Copy Assignment Operator" << std::endl;
-        if (this == &source)
-            return *this;
-        _image = new wxBitmap();
-        *_image = *source._image;    
-        _chatLogic = source._chatLogic;
-        _rootNode = source._rootNode;
-        _currentNode = source._currentNode;
-        return *this;
-    }
+    ChatBot &operator=(const ChatBot &source); // copy assignment operator
+    
 
     // getters / setters
     void SetCurrentNode(GraphNode *node);
