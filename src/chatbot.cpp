@@ -66,10 +66,10 @@ ChatBot& ChatBot::operator=(ChatBot &&source) noexcept
         return *this;
     }
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
-    // if(_image != NULL) {
-    //     delete _image;
-    //     _image = NULL;
-    // }
+    if(_image != NULL) {
+        delete _image;
+        _image = NULL;
+    }
     _image = source._image;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
@@ -102,6 +102,7 @@ ChatBot& ChatBot::operator=(const ChatBot& source)
     _image = new wxBitmap();
     *_image = *source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
     _currentNode = source._currentNode;
     return *this;
